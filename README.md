@@ -8,6 +8,12 @@ A RESTful Task Manager API built with Node.js, Express, and MySQL that allows us
 - CRUD Tasks
 - MySQL Database
 
+## Setup
+1. npm install
+2. Create MySQL DB using database.sql
+3. Update .env
+4. npm run dev
+   
 ## API Endpoints
 POST /api/auth/register
 POST /api/auth/login
