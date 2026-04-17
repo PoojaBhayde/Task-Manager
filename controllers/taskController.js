@@ -17,14 +17,23 @@ exports.createTask = (req, res) => {
 exports.getTasks = (req, res) => {
   const userId = req.userId;
 
-  db2.query(
-    "SELECT * FROM tasks WHERE user_id = ?",
-    [userId],
-    (err, results) => {
-      if (err) return res.status(500).send(err);
-      res.json(results);
-    }
-  );
+  // Pagination
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 5;
+  const offset = (page - 1) * limit;
+
+  const query = "SELECT * FROM tasks WHERE user_id = ? LIMIT ? OFFSET ?"
+  
+  db.query(query, [userId, limit, offset], (err, results) => {
+    if (err) return res.status(500).send(err);
+
+    res.json({
+      page,
+      limit,
+      data: results
+    });
+  });
+  
 };
 
 exports.updateTask = (req, res) => {
