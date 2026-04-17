@@ -22,6 +22,10 @@ exports.getTasks = (req, res) => {
   const limit = parseInt(req.query.limit) || 5;
   const offset = (page - 1) * limit;
 
+  if (limit > 20) {
+    return res.status(400).json({ message: "Limit too large" });
+  }
+  
   const query = "SELECT * FROM tasks WHERE user_id = ? LIMIT ? OFFSET ?"
   
   db.query(query, [userId, limit, offset], (err, results) => {
